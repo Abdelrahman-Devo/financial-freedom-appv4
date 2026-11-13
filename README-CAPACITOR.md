@@ -44,3 +44,15 @@ npm run test:finance
 The checks cover received-vs-planned income, wallet outflows, savings/net-worth accounting, debt repayment, deficit carry-forward, deletion reversal, and transfer neutrality.
 
 The root `index.html` and `www/index.html` are kept identical for Capacitor.
+
+
+## تحديث الإصدار 2.2.0
+
+- تبسيط الشاشة الرئيسية إلى: ميزانيتك، ملخص الشهر، ميزانية الصرف اليومي، والالتزامات الشهرية.
+- إضافة تسجيل تحصيل الديون المستحقة لك في محفظة تختارها، مع عكس العملية عند تعديلها أو حذفها، وعدم احتساب التحصيل كدخل جديد.
+- إضافة اختيار المحفظة الفعلية عند سداد الالتزام الشهري، مع ربط السداد بالمصروف والميزانية مرة واحدة.
+- منع تسجيل استلام مرتب ثانٍ لنفس الشهر، وإتاحة تعديل أو إلغاء استلام المرتب السابق من سجل حركات المحافظ.
+- استبدال توزيع المصروفات في التقرير برسم دائري (Donut) مع النسب والمبالغ.
+- إضافة اختبار يراجع أن تحصيل الدين يزيد المحفظة ولا يضاعف الدخل الشهري.
+
+شغّل الاختبارات عبر `npm run test:finance`.
