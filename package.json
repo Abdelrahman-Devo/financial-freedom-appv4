@@ -5,7 +5,8 @@
   "description": "Financial Freedom Arabic RTL app with linked wallets, budget allocations, salary receipts, debt and savings tracking",
   "scripts": {
     "cap:add:android": "cap add android",
-    "cap:sync:android": "cap sync android"
+    "cap:sync:android": "cap sync android",
+    "test:finance": "node tests/finance-engine.test.js"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",
