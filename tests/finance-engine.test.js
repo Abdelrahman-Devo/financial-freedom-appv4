@@ -51,4 +51,9 @@ ctx.state.moneyMoves.push({id:'tr',type:'transfer',date:'2026-11-06',amount:1000
 eq(ctx.__test.FinanceEngine.walletBalance(ctx.state.wallets[0]),6000,'transfer source');
 eq(ctx.__test.FinanceEngine.walletBalance(ctx.state.wallets[1]),1000,'transfer destination');
 eq(ctx.__test.FinanceEngine.walletBalance(ctx.state.wallets[0])+ctx.__test.FinanceEngine.walletBalance(ctx.state.wallets[1]),7000,'transfer total unchanged');
-console.log('PASS: received income, wallet outflows, savings asset, debt payment, net worth, negative carry, deletion reversal, transfer neutrality.');
+// 8) Collecting a receivable credits the chosen wallet, but is not new monthly income.
+const incomeBeforeCollection=ctx.__test.incomeForMonth('2026-11');
+ctx.state.moneyMoves.push({id:'collection1',type:'collection',date:'2026-11-07',amount:300,fromWalletId:'',toWalletId:'bank',addToIncome:false});
+eq(ctx.__test.FinanceEngine.walletBalance(ctx.state.wallets[1]),1300,'receivable collection credits selected wallet');
+eq(ctx.__test.incomeForMonth('2026-11'),incomeBeforeCollection,'receivable collection is not new income');
+console.log('PASS: received income, wallet outflows, savings asset, debt payment, net worth, negative carry, deletion reversal, transfer neutrality, receivable collection.');
