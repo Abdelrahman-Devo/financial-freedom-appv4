@@ -56,4 +56,17 @@ const incomeBeforeCollection=ctx.__test.incomeForMonth('2026-11');
 ctx.state.moneyMoves.push({id:'collection1',type:'collection',date:'2026-11-07',amount:300,fromWalletId:'',toWalletId:'bank',addToIncome:false});
 eq(ctx.__test.FinanceEngine.walletBalance(ctx.state.wallets[1]),1300,'receivable collection credits selected wallet');
 eq(ctx.__test.incomeForMonth('2026-11'),incomeBeforeCollection,'receivable collection is not new income');
-console.log('PASS: received income, wallet outflows, savings asset, debt payment, net worth, negative carry, deletion reversal, transfer neutrality, receivable collection.');
+// 9) Audit catches duplicate salary receipts within one month.
+ctx.state.moneyMoves.push({id:'salary-duplicate',type:'salary',date:'2026-11-20',amount:1000,toWalletId:'bank'});
+assert(ctx.__test.FinanceEngine.audit().some(x=>x.includes('أكثر من استلام مرتب')),'audit must detect duplicate monthly salary');
+ctx.state.moneyMoves=ctx.state.moneyMoves.filter(x=>x.id!=='salary-duplicate');
+// 10) Audit catches payment-group totals that do not match their debt allocations.
+ctx.state.paymentGroups=[{id:'bad-payment',type:'owed',amount:900,allocations:[{debtId:'d1',amount:500}]}];
+assert(ctx.__test.FinanceEngine.audit().some(x=>x.includes('قيمة دفعة دين')),'audit must detect mismatched debt payment allocations');
+ctx.state.paymentGroups=[];
+// 11) Additional income is included only when explicitly marked as distributable.
+ctx.state.moneyMoves.push({id:'extra-info',type:'income',date:'2026-11-10',amount:700,toWalletId:'bank',addToIncome:false});
+const withoutInfo=ctx.__test.incomeForMonth('2026-11');
+ctx.state.moneyMoves.push({id:'extra-real',type:'income',date:'2026-11-11',amount:300,toWalletId:'bank',addToIncome:true});
+eq(ctx.__test.incomeForMonth('2026-11'),withoutInfo+300,'only distributable extra income changes monthly income');
+console.log('PASS: received income, wallet outflows, savings asset, debt payment, net worth, negative carry, deletion reversal, transfer neutrality, receivable collection, salary uniqueness audit, debt allocation audit, extra income separation.');
