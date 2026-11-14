@@ -66,3 +66,13 @@ The root `index.html` and `www/index.html` are kept identical for Capacitor.
 - Added regression coverage for monthly salary uniqueness, debt allocation integrity, additional-income separation, shared debt deletion, and safe salary cancellation.
 
 Run `npm run test:finance` and `node tests/transactions.test.js` to execute the regression checks.
+
+
+## تحديث الإصدار 7.2 — الحذف النهائي وإعادة ضبط التطبيق
+
+- حذف المحفظة أصبح نهائيًا، سواء كانت نشطة أو مؤرشفة، ولا يمنع حذف آخر محفظة.
+- حذف المحفظة يحذف المصروفات والحركات والتحويلات المرتبطة بها، ويزيل روابط دفعات الديون والتحصيلات التابعة، ويعيد احتساب الأهداف والديون والميزانية.
+- إزالة أي ارتباطات افتراضية للالتزامات بالمحفظة المحذوفة.
+- إعادة تعيين التطبيق تمسح بيانات التطبيق وإعداداته المحلية، بما فيها تفضيل المظهر، وتعيده إلى شاشة البداية والإعدادات الافتراضية.
+- تحديث إصدار Service Worker حتى تصل ملفات الواجهة الجديدة عند التحديث.
+- مزامنة `index.html` في الجذر و`www/index.html`.
