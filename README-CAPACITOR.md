@@ -56,3 +56,13 @@ The root `index.html` and `www/index.html` are kept identical for Capacitor.
 - إضافة اختبار يراجع أن تحصيل الدين يزيد المحفظة ولا يضاعف الدخل الشهري.
 
 شغّل الاختبارات عبر `npm run test:finance`.
+
+## Financial integrity patch (v7 maintenance)
+
+- Salary receipt edits now simulate the resulting source/destination wallet balances before saving.
+- Salary receipt cancellation is blocked when removing the receipt would make its wallet negative, including a second balance check at confirmation time.
+- Deleting one debt from a shared payment now removes only that debt's allocation and adjusts the linked cash transaction to the remaining allocations, instead of deleting the entire payment while leaving partial debt payments behind.
+- The finance audit now checks duplicate monthly salary receipts, duplicate movement IDs, invalid movement amounts/dates, missing wallet references, self-transfers, and mismatches between debt payment totals and allocations.
+- Added regression coverage for monthly salary uniqueness, debt allocation integrity, additional-income separation, shared debt deletion, and safe salary cancellation.
+
+Run `npm run test:finance` and `node tests/transactions.test.js` to execute the regression checks.
